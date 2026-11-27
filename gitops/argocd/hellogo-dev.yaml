@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hellogo-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/vladtrubnikov1987/gitops-homework.git
+    targetRevision: HEAD
+    path: gitops/hellogo-chart
+    helm:
+      valueFiles:
+        - values-dev.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: hellogo-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
