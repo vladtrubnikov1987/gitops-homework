@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hellogo
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/vladtrubnikov1987/gitops-homework.git
+    targetRevision: HEAD
+    path: gitops/hellogo-app
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: hellogo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
